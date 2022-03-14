@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  rproxy:
+    image: nginx:latest
+    depends_on:
+      - webserver
+      - mongodb
+    volumes:
+      - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+  mongodb:
+    image: mongo:latest
+    environment:
+      - MONGODB_DATABASE="nest"
+    ports:
+      - 27017:27017
+
+  frontend:
+    build:
+      context: ./next-boilerplate
+      dockerfile: Dockerfile
+    restart: on-failure
+    ports:
+      - 3000:3000
+
+  webserver:
+    build:
+      context: ./nest-boilerplate
+      dockerfile: Dockerfile
+    restart: on-failure
+    environment:
+      - NEST_ENV=prod
+      - DB_URL=mongodb
+    ports:
+      - 3001:3000
