@@ -5,6 +5,8 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { ConfigModule } from '@nestjs/config';
+import { AppController } from './app.controller';
+import { AppService } from './app.service';
 
 @Module({
   imports: [
@@ -18,5 +20,7 @@ import { ConfigModule } from '@nestjs/config';
     MongooseModule.forRoot(`mongodb://${process.env.DB_URL}/nest`),
     UserModule,
   ],
+  controllers: [AppController],
+  providers: [AppService]
 })
 export class AppModule { }
