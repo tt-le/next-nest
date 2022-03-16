@@ -15,16 +15,19 @@ services:
     image: mongo:latest
     environment:
       - MONGODB_DATABASE="nest"
-    ports:
-      - 27017:27017
-
+    # ports:
+    #   - 27017:27017
+    expose:
+      - 27017
   frontend:
     build:
       context: ./next-boilerplate
       dockerfile: Dockerfile
     restart: on-failure
-    ports:
-      - 3000:3000
+    # ports:
+    #   - 3000:3000
+    expose:
+      - 3000
 
   webserver:
     build:
@@ -34,5 +37,7 @@ services:
     environment:
       - NEST_ENV=prod
       - DB_URL=mongodb
-    ports:
-      - 3001:3000
+    # ports:
+    #   - 3001:3000
+    expose:
+      - 3000
